@@ -816,6 +816,9 @@ main(int argc, char **argv)
 		goto done;
 	}
 	if (pkcs11provider != NULL) {
+		struct stat buf;
+		if (stat(pkcs11provider, &buf) != 0)
+			fatal("PKCS#11 shared library file is not available: %s", strerror(errno));
 		if (update_card(agent_fd, !deleting, pkcs11provider,
 		    qflag) == -1)
 			ret = 1;
